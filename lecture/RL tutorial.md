@@ -34,9 +34,11 @@ It was mostly used in games (e.g. Atari, Mario), with performance on par with or
 
 3. Reward (R): An immediate return send back from the environment to evaluate the last action.
 
+   $$R^{a}_{s} = E[R_{t+1}|S_t = s , A_t = a]$$
+
 4. State transition probability matrix
 
-   $$\large P^{a}_{s'} = P[S_{t+1} = s' | S_t = s, A_t = a]$$
+   $$\large P^{a}_{ss'} = P[S_{t+1} = s' | S_t = s, A_t = a]$$
 
    ![State transition probability matrix](images/State transition probability matrix.png)
 
@@ -46,13 +48,15 @@ It was mostly used in games (e.g. Atari, Mario), with performance on par with or
 
 6. Policy (π): The strategy that the agent employs to determine next action based on the current state.
 
+   ![policy_definition](images/policy_definition.png)
+
 7. state value function (V): The expected long-term return with discount, as opposed to the short-term reward R. $$V\pi(s)$$ is defined as the expected long-term return of the current state sunder policy π.
 
    ![state-value-function1](images/state-value-function1.png)
 
    ![state-value-function2](images/state-value-function2.png)
 
-8. Q-value or action-value function (Q): Q-value is similar to Value, except that it takes an extra parameter, the current action *a*. $$Q\pi(s,a)$$ refers to the long-term return of the current state *s*, taking action *a* under policy π.
+8. Q-value or action-value function (Q): Q-value is similar to Value, except that it takes an extra parameter, the current action *a*. $$Q\pi(s,a)$$ refers to the long-term return of the current state *s*, taking action *a* under policy π. **this case in contrast to state-value function, do not need MDP and knowledge(state to state) to know how to get to next state which achieve the optimal reward.** Therefore we use this.
 
    ![Action-value-function](images/Action-value-function.png)
 
@@ -102,11 +106,68 @@ A Bellman equation, named after its discoverer, Richard Bellman, also known as d
 
    ![Bellman's principle of optimality](images/Bellman's principle of optimality.png)
 
-   Choose the action to be considered with not only current payof,f but also rewards of the following states.  
+   Choose the action to be considered with not only current payoff, but also rewards of the following states.  
 
 3. The Bellman equation
 
    ![Bellman equation](images/Bellman equation.png)
+
+4. Bellman expectation equation : Combination of Bellman equation and value function
+
+   ![state-value-function2](images/state-value-function2.png)
+
+   ![state-value_tree](images/state-value_tree.png)
+
+   ##### optimal state-value function
+
+
+$$
+\huge\; v_{\pi*}(x) = \max_{\pi} v_\pi(s)
+$$
+
+##### rewrite as Q function(action-value function)
+
+![action-value-function_tree](images/action-value-function_tree.png)
+
+##### 	optimal state-value function
+
+$$
+\huge q_{\pi*}(s, a) = \max_{\pi}q_\pi (s,a)
+$$
+
+
+
+#### 2-3. policy iteration
+
+![state-value_tree](images/state-value_tree.png)
+
+To solve dynamic programming, reward and state transition probability information must be known. At the first, a agent can not know policy function. Therefore It start with random policy. We make the agent learn environment and get the true value function. this process is called **policy evaluation**. Next, we need to update our policy to be better. Then the policy gradually become optimal. This is **policy improvement**.
+$$
+\huge v_{k+1}(s) = \sum_{a \in A}\pi(a|s)(R^a_s + \gamma\sum_{s' \in S}P^a_{ss'}v_k(s'))
+$$
+implementing  iterations of policy evaluation and policy improvement to get optimal policy is called **policy iteration**.
+
+![policy_iteration](images/policy_iteration.png)
+
+
+
+#### 2-4. value iteration
+
+The different thing with Value iteration to Policy iteration is using Bellman optimality equations, instead Bellman expectation equation. 
+
+![value_iteration](images/value_iteration.png)
+
+이 equation을 사용하여 다음과 같이 update를 하는데 policy iteration처럼 중간 중간에 policy를 update하지않고 마지막에 구해진 optimal q-function의 값을 보고 greedy하게 policy를 정해버립니다. Policy Iteration때와 마찬가지로 Bellman optimality equation과 다른 점은 k라는 iteration숫자가 달리면서 한 스텝 한 스텝 업데이트를 한다는 것입니다.
+
+![value_iteration_2](images/value_iteration_2.png)
+
+
+
+
+
+
+
+
 
 Reference : https://en.wikipedia.org/wiki/Bellman_equation
 
@@ -142,11 +203,11 @@ This says that the Q-value for a given state (s) and action (a) should represent
 
 ![agent](images/agent.jpg)
 
+![policy_value_based](images/policy_value_based.png)
 
 
 
-
-
+![policy_based](images/policy_based.png)
 
 
 
