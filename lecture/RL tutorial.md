@@ -8,17 +8,36 @@
 
 ​									         **marshmallow test**
 
+Reinforcement Learning is seemed like ["*marshmallow test*"](https://en.wikipedia.org/wiki/Stanford_marshmallow_experiment) conducted by Walter Mischel, then a professor at Stanford university. In this experiment, he insisted that the children to wait for larger later reward, will have better outcome at SAT test, educational achievements, Body mass index and so on. Like this, We want our **intelligent agent** to activate in consideration of long term reward. That is the purpose of Reinforcement Learning.
+
 Reinforcement Learning (RL) refers to a kind of Machine Learning method that how software agents ought to take *actions* in an *environment* so as to maximize some notion of cumulative *reward*.
 
 It was mostly used in games (e.g. Atari, Mario), with performance on par with or even exceeding humans. Recently, as the algorithm evolves with the combination of Neural Networks to solve more complex problems.
 
 ![RL_tutorial](images/RL_tutorial.png)
 
-**Q. How can we model decision making process of agents for a environment which have specific characteristics?**
+**Q. How can we model decision making process of agents for a environment which have specific characteristics? That's called Markov decision process**
 
 #### Markov decision process
 
 ![Markov_Decision_Process.svg](images/Markov_Decision_Process.svg.png)
+
+---
+
+We need to understand a useful property called [Markov property](https://en.wikipedia.org/wiki/Markov_property) . Markov property refers to the memoryless property of a stochastic process.
+$$
+P[S_{t+1}|S_{t},S_{t-1},S_{t-2},S_{t-3}...S_{2},S_{1}] = P[S_{t+1}|S_{t}]\\
+\text{if and only if this case is called Markov}
+$$
+A stochastic process has the Markov property if the [conditional probability distribution](https://en.wikipedia.org/wiki/Conditional_probability_distribution) of future states of the process (conditional on both past and present values) depends only upon the present state.
+$$
+\text{suppose that there is a Bayesian chain like below, }\\
+P[S_{t+1},S_{t},S_{t-1},S_{t-2},S_{t-3}...S_{2},S_{1}] = P[S_{t+1}|S_{t}, S_{t-1}, ...,S_1]P[S_t|S_{t-1},S_{t-2},...,S_1]...P[S_2|S_1]P[S_1] \\
+\text{if this stochastic process is markov, We can represent Markov chain from Bayesian chain like this.} \\ P[S_{t+1}|S_{t}]P[S_{t}|S_{t-1}]...P[S_2|S_1]P[S_1]
+$$
+**The future state is independent of the past states**, because the present state contains all relevant information from the history. It is used very efficiently in many problems where we can model its environment as Markovian process.
+
+---
 
 **Markov decision processes** (**MDPs**) provide a mathematical framework for modeling [decision making](https://en.wikipedia.org/wiki/Decision_making) in situations where outcomes are partly [random](https://en.wikipedia.org/wiki/Randomness#In_mathematics) and partly under the control of a decision maker. MDPs are useful for studying a wide range of [optimization problems](https://en.wikipedia.org/wiki/Optimization_problem) solved via [dynamic programming](https://en.wikipedia.org/wiki/Dynamic_programming) and [reinforcement learning](https://en.wikipedia.org/wiki/Reinforcement_learning). (ref : wikipedia)
 
@@ -36,13 +55,19 @@ It was mostly used in games (e.g. Atari, Mario), with performance on par with or
 
    $$R^{a}_{s} = E[R_{t+1}|S_t = s , A_t = a]$$
 
-4. State transition probability matrix
+   ![Marcov_3](images/Marcov_3.png)	
+
+4. State transition probability matrix. Because our stochastic process is Markovian, probability distribution of future states depends on only a present state.
 
    $$\large P^{a}_{ss'} = P[S_{t+1} = s' | S_t = s, A_t = a]$$
 
    ![State transition probability matrix](images/State transition probability matrix.png)
 
-5. Discounting factor ( $$0\le \gamma \le 1 $$)
+   ![Markov_1](images/Markov_1.png)
+
+   ![Markov Chain Transition Matrix](images/Markov Chain Transition Matrix.png)
+
+5. Discounting factor ( $$0\le \gamma \le 1 $$) : to avoid infinite returns, to represent uncertainty of future reward, to show the preference of immediate reward.
 
    ![Discounting](images/Discounting.png)
 
@@ -55,6 +80,8 @@ It was mostly used in games (e.g. Atari, Mario), with performance on par with or
    ![state-value-function1](images/state-value-function1.png)
 
    ![state-value-function2](images/state-value-function2.png)
+
+   ![Markov_4](images/Markov_4.png)
 
 8. Q-value or action-value function (Q): Q-value is similar to Value, except that it takes an extra parameter, the current action *a*. $$Q\pi(s,a)$$ refers to the long-term return of the current state *s*, taking action *a* under policy π. **this case in contrast to state-value function, do not need MDP and knowledge(state to state) to know how to get to next state which achieve the optimal reward.** Therefore we use this.
 
