@@ -16,15 +16,15 @@ It was mostly used in games (e.g. Atari, Mario), with performance on par with or
 
 ![RL_tutorial](images/RL_tutorial.png)
 
-**Q. How can we model decision making process of agents for a environment which have specific characteristics? That's called Markov decision process**
+Q. How can we model decision making process of agents for a environment which have specific characteristics? That's called **Markov decision process**
 
-#### Markov decision process
+## 2. Markov decision process
 
 ![Markov_Decision_Process.svg](images/Markov_Decision_Process.svg.png)
 
 ---
 
-We need to understand a useful property called [Markov property](https://en.wikipedia.org/wiki/Markov_property) . Markov property refers to the memoryless property of a stochastic process.
+We need to understand a useful property called **[Markov property](https://en.wikipedia.org/wiki/Markov_property)** . Markov property refers to the memoryless property of a stochastic process.
 $$
 P[S_{t+1}|S_{t},S_{t-1},S_{t-2},S_{t-3}...S_{2},S_{1}] = P[S_{t+1}|S_{t}]\\
 \text{if and only if this case is called Markov}
@@ -43,13 +43,11 @@ $$
 
 ![markov decision process](images/markov decision process.png)
 
-
-
 #### Definition
 
 1. Action (A): All the possible moves that the agent can take
 
-2. State (S): Current situation returned by the environment.
+2. State (S): Current situation returned by the environment. $$S^a_t = f(S^e_t)$$
 
 3. Reward (R): An immediate return send back from the environment to evaluate the last action.
 
@@ -86,6 +84,52 @@ $$
 8. Q-value or action-value function (Q): Q-value is similar to Value, except that it takes an extra parameter, the current action *a*. $$Q\pi(s,a)$$ refers to the long-term return of the current state *s*, taking action *a* under policy π. **this case in contrast to state-value function, do not need MDP and knowledge(state to state) to know how to get to next state which achieve the optimal reward.** Therefore we use this.
 
    ![Action-value-function](images/Action-value-function.png)
+
+
+
+
+
+
+
+
+#### 2-1. Bellman Expectation equation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## 2. Q-Learning intro
 
