@@ -49,41 +49,150 @@ $$
 
 2. State (S): Current situation returned by the environment. $$S^a_t = f(S^e_t)$$
 
-3. Reward (R): An immediate return send back from the environment to evaluate the last action.
-
-   $$R^{a}_{s} = E[R_{t+1}|S_t = s , A_t = a]$$
-
-   ![Marcov_3](images/Marcov_3.png)	
-
-4. State transition probability matrix. Because our stochastic process is Markovian, probability distribution of future states depends on only a present state.
+3. State transition probability matrix. Because our stochastic process is Markovian, probability distribution of future states depends on only a present state.
 
    $$\large P^{a}_{ss'} = P[S_{t+1} = s' | S_t = s, A_t = a]$$
 
    ![State transition probability matrix](images/State transition probability matrix.png)
 
-   ![Markov_1](images/Markov_1.png)
+   ​
 
-   ![Markov Chain Transition Matrix](images/Markov Chain Transition Matrix.png)
+4. Reward (R): An immediate return send back from the environment to evaluate the last action.
 
-5. Discounting factor ( $$0\le \gamma \le 1 $$) : to avoid infinite returns, to represent uncertainty of future reward, to show the preference of immediate reward.
+    $$R^{a}_{s} = E[R_{t+1}|S_t = s , A_t = a]$$ 
+
+
+5. state value function (V): The expected long-term return with discount, as opposed to the short-term reward R. $$V\pi(s)$$ is defined as the expected long-term return of the current state sunder policy π.
+
+   ![state-value-function1](images/state-value-function1.png)
+
+   ![state-value-function2](images/state-value-function2.png)
+
+   **Discounting factor** ( $$0\le \gamma \le 1 $$) : to avoid infinite returns, to represent uncertainty of future reward, to show the preference of immediate reward.
 
    ![Discounting](images/Discounting.png)
 
-6. Policy (π): The strategy that the agent employs to determine next action based on the current state.
+   ​
 
-   ![policy_definition](images/policy_definition.png)
+   To show simple example, Markov reward process(Action is not considered.) is presented below.
 
-7. state value function (V): The expected long-term return with discount, as opposed to the short-term reward R. $$V\pi(s)$$ is defined as the expected long-term return of the current state sunder policy π.
+   ![Marcov_3](images/Marcov_3.png)
+
+   ![return](images/return.png)
+
+   ![ex1_state-value](images/ex1_state-value.png)
+
+   ![ex2_state-value](images/ex2_state-value.png)
+
+   ​
+
+   But What we use for Reinforcement Learning is Markov decision process. MDP has difference that it's reward function given state depends on agent's action in contrary to MRP.
+
+   ![Student_MDP](images/Student_MDP.png)
+
+   ![Student_MDP2](images/Student_MDP2.png)
+
+
+5. Q-value or action-value function (Q): Q-value is similar to Value, except that it takes an extra parameter, the current action *a*. $$Q\pi(s,a)$$ refers to the long-term return of the current state *s*, taking action *a* under policy π. **this case in contrast to state-value function, do not need MDP and knowledge(state to state) to know how to get to next state which achieve the optimal reward.** Therefore we use this.
+
+   ![Action-value-function](images/Action-value-function.png)
+
+6. Policy (π): The strategy that the agent employs to determine next action based on th e current state. A policy fully defines the behaviour of an agent. MDP policies depend on the current state(note the history)![policy_definition](images/policy_definition.png)
+
+#### 3. Bellman Equation
+
+
+A Bellman equation, named after its discoverer, Richard Bellman, also known as dynamic programming equation. This breaks a dynamic optimization problem into simpler subproblems.
+
+1. A dynamic decision problem
+
+   the current payoff from taking $$a$$ in state $$x$$ is $$F(x, a)$$
+
+   ![A dynamic decision problem](images/A dynamic decision problem.png)
+
+2. Bellman's Principle of optimality
+
+   **Principle of Optimality :** An optimal policy has the property that whatever the initial state and initial decision are, the remaining decisions must constitute an optimal policy with regard to the state resulting from the first decision. 
+
+   ![Bellman's principle of optimality](images/Bellman's principle of optimality.png)
+
+   Choose the action to be considered with not only current payoff, but also rewards of the following states.  
+
+3. The Bellman equation
+
+   ![Bellman equation](images/Bellman equation.png)
+
+4. state value function (V) with the **Bellman equation**: 
 
    ![state-value-function1](images/state-value-function1.png)
 
    ![state-value-function2](images/state-value-function2.png)
 
    ![Markov_4](images/Markov_4.png)
+   $$
+    G_{t} = R_{t+1} + \gamma R_{t+2}+\gamma^2 R_{t+3}+... \\
+       = R_{t+1} + \gamma\{ R_{t+2}+\gamma R_{t+3}+\gamma^2 R_{t+4}+...\}  \\
+       \;\\
+       \therefore v(s) = E[G_t|S_t = s]  \\= E[R_{t+1} + \gamma\{ R_{t+2}+\gamma R_{t+3}+\gamma^2 R_{t+4}+..\} | S_t = s] \\
+       = E[R_{t+1} + \gamma G_{t+1} | S_t = s] = E[R_{t+1} + \gamma v(S_{t+1})|S_t = s]
+   $$
+   ![ex3_state-value](images/ex3_state-value.png)
 
-8. Q-value or action-value function (Q): Q-value is similar to Value, except that it takes an extra parameter, the current action *a*. $$Q\pi(s,a)$$ refers to the long-term return of the current state *s*, taking action *a* under policy π. **this case in contrast to state-value function, do not need MDP and knowledge(state to state) to know how to get to next state which achieve the optimal reward.** Therefore we use this.
+   ![Bellman_equation_matrice](images/Bellman_equation_matrice.png)
+
+   ![solving the Bellman Eqaution](images/solving the Bellman Eqaution.png)
+
+
+
+5. Q-value or action-value function (Q): Q-value is similar to Value, except that it takes an extra parameter, the current action *a*. $$Q\pi(s,a)$$ refers to the long-term return of the current state *s*, taking action *a* under policy π. **this case in contrast to state-value function, do not need MDP and knowledge(state to state) to know how to get to next state which achieve the optimal reward.** Therefore we use this.
 
    ![Action-value-function](images/Action-value-function.png)
+
+6. Policy (π): The strategy that the agent employs to determine next action based on th e current state.   ![policy_definition](images/policy_definition.png)
+
+7. Bellman expectation equation : Combination of Bellman equation and value function
+
+
+   ![state-value-function2](images/state-value-function2.png)
+
+   ![state-value_tree](images/state-value_tree.png)
+
+   ##### optimal state-value function
+
+$$
+G_{t} = R_{t+1} + \gamma R_{t+2}+\gamma^2 R_{t+3}+... \\
+   = R_{t+1} + \gamma\{ R_{t+2}+\gamma R_{t+3}+\gamma^2 R_{t+4}+...\}  \\
+   \;\\
+   \therefore v(s) = E[G_t|S_t = s]  \\= E[R_{t+1} + \gamma\{ R_{t+2}+\gamma R_{t+3}+\gamma^2 R_{t+4}+..\} | S_t = s] \\
+   = E[R_{t+1} + \gamma G_{t+1} | S_t = s] = E[R_{t+1} + \gamma v(S_{t+1})|S_t = s]
+$$
+   			![ex3_state-value](images/ex3_state-value.png)
+
+
+
+5. Q-value or action-value function (Q): Q-value is similar to Value, except that it takes an extra parameter, the current action *a*. $$Q\pi(s,a)$$ refers to the long-term return of the current state *s*, taking action *a* under policy π. **this case in contrast to state-value function, do not need MDP and knowledge(state to state) to know how to get to next state which achieve the optimal reward.** Therefore we use this.
+
+   ![Action-value-function](images/Action-value-function.png)
+
+6. Policy (π): The strategy that the agent employs to determine next action based on th e current state.   ![policy_definition](images/policy_definition.png)
+
+
+
+$$
+\huge\; v_{\pi*}(x) = \max_{\pi} v_\pi(s)
+$$
+
+##### rewrite as Q function(action-value function)
+
+![action-value-function_tree](images/action-value-function_tree.png)
+
+##### 	optimal state-value function
+
+$$
+\huge q_{\pi*}(s, a) = \max_{\pi}q_\pi (s,a)
+$$
+
+
 
 
 
@@ -162,49 +271,6 @@ Each cell of the table was filled with a score from a scoring system and pre-sta
 Consequently, present decision should be done to make optimal as considering both present payoff and the following states.
 
 #### 2-2. Bellman equation
-
-A Bellman equation, named after its discoverer, Richard Bellman, also known as dynamic programming equation. This breaks a dynamic optimization problem into simpler subproblems.
-
-1. A dynamic decision problem
-
-   the current payoff from taking $$a$$ in state $$x$$ is $$F(x, a)$$
-
-   ![A dynamic decision problem](images/A dynamic decision problem.png)
-
-2. Bellman's Principle of optimality
-
-   **Principle of Optimality :** An optimal policy has the property that whatever the initial state and initial decision are, the remaining decisions must constitute an optimal policy with regard to the state resulting from the first decision. 
-
-   ![Bellman's principle of optimality](images/Bellman's principle of optimality.png)
-
-   Choose the action to be considered with not only current payoff, but also rewards of the following states.  
-
-3. The Bellman equation
-
-   ![Bellman equation](images/Bellman equation.png)
-
-4. Bellman expectation equation : Combination of Bellman equation and value function
-
-   ![state-value-function2](images/state-value-function2.png)
-
-   ![state-value_tree](images/state-value_tree.png)
-
-   ##### optimal state-value function
-
-
-$$
-\huge\; v_{\pi*}(x) = \max_{\pi} v_\pi(s)
-$$
-
-##### rewrite as Q function(action-value function)
-
-![action-value-function_tree](images/action-value-function_tree.png)
-
-##### 	optimal state-value function
-
-$$
-\huge q_{\pi*}(s, a) = \max_{\pi}q_\pi (s,a)
-$$
 
 
 
